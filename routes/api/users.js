@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", ({ params }, res) => {
     User.findOne({ _id: params.id })
         .populate({
             path: 'thoughts',
@@ -50,7 +50,7 @@ router.put("/update:id", (req, res) => {
         {
             $set: {
                 username: req.body.username,
-                email: req.body.email,
+                email: req.body.email
             }
         })
         .catch(err => res.json(err));
@@ -63,7 +63,7 @@ router.delete("/delete/:id", (req, res) => {
         .catch(err => res.json(err));
 });
 
-router.get("/:id/friends/:friendId", (req, res) => {
+router.post("/:id/friends/:friendId", ({ params }, res) => {
     User.findOneAndUpdate({ _id: params.id },
         { $push: { friends: params.friendId } })
         .then(dbData => {
@@ -79,7 +79,7 @@ router.get("/:id/friends/:friendId", (req, res) => {
         });
 });
 
-router.delete("/:id/friends/:friendId", (req, res) => {
+router.delete("/:id/friends/:friendId", ({ params }, res) => {
     User.findOneAndDelete({ _id: params.id },
         { $pull: { friends: params.friendId } })
         .then(dbData => {
