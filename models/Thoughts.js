@@ -6,8 +6,8 @@ function getDate() {
 
 const Reactions = new Schema({
     reactionId: {
-        type: ObjectId,
-        default: new ObjectId
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
     },
     reactionBody: {
         type: String,
@@ -55,7 +55,7 @@ const ThoughtsSchema = new Schema(
     }
 );
 
-UserSchema.virtual('reactionCount').get(function () {
+ThoughtsSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
 
